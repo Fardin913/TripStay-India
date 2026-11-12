@@ -1,0 +1,2 @@
+import { MapPin, ArrowUpRight } from "lucide-react";
+export default function PlaceCard({place,onMap}){return <article className="place-card"><img src={place.image} alt={place.name}/><div className="place-card-body"><span className="eyebrow">{place.category}</span><h3>{place.name}</h3><p className="muted"><MapPin size={14}/>{place.city}, {place.state}</p><p>{place.description}</p><button className="text-link map-link" onClick={()=>onMap(place)}>View on map <ArrowUpRight size={15}/></button></div></article>;}

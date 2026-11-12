@@ -1,0 +1,4 @@
+import { useEffect,useState } from "react";
+import api from "../api/client";
+import HotelCard from "../components/HotelCard";
+export default function Wishlist(){const [items,setItems]=useState([]),[error,setError]=useState("");const load=()=>api.get("/wishlist").then(r=>setItems(r.data)).catch(e=>setError(e.response?.data?.message||"Could not load wishlist."));useEffect(()=>{load();},[]);const remove=async id=>{await api.delete(`/wishlist/${id}`);setItems(v=>v.filter(x=>x._id!==id));};return <main className="page-wrap"><div className="page-heading"><span className="eyebrow">SAVED FOR LATER</span><h1>Your wishlist</h1><p>Stays you want to remember.</p></div>{error&&<div className="alert">{error}</div>}<div className="hotel-grid">{items.map(h=><HotelCard key={h._id} hotel={h} saved onSave={remove}/>)}</div>{!items.length&&!error&&<p className="empty">Your wishlist is empty.</p>}</main>;}
