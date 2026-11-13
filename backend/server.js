@@ -15,7 +15,9 @@ dotenv.config();
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
 app.use(express.json());
-app.get("/api/health", (_req, res) => res.json({ status: "ok", message: "TripStay API is running" }));
+app.get("/api/health", (_req, res) =>
+  res.json({ status: "ok", message: "TripStay API is running" }),
+);
 app.use("/api/auth", authRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/destinations", destinationRoutes);
@@ -26,6 +28,17 @@ app.use("/api/payments", paymentRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
+
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "TripStay API is running"
+    });
+});
+
+
 const PORT = process.env.PORT || 5000;
-connectDB().then(() => app.listen(PORT, () => console.log(`API running on port ${PORT}`)))
-  .catch((err) => { console.error("Database connection failed:", err.message); process.exit(1); });
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
